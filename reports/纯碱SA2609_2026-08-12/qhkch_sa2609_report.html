@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>纯碱 SA2609 多空逻辑分析报告 · 2026-08-12</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;background:#f5f6f8;color:#1f2329;margin:0;padding:24px;font-size:13px;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;background:#fff;border:1px solid #e5e6eb;border-radius:6px}
+header{background:#1f2329;color:#fff;padding:18px 24px}
+header h1{margin:0;font-size:18px;font-weight:600;letter-spacing:.5px}
+header .meta{margin-top:6px;font-size:12px;color:#a9adb5}
+.section{padding:18px 24px;border-bottom:1px solid #eef0f3}
+.section h2{font-size:14px;margin:0 0 12px;padding-left:8px;border-left:3px solid #2f6fed;color:#1f2329}
+.note{background:#f0f5ff;border:1px solid #d6e4ff;border-radius:4px;padding:10px 12px;font-size:12px;color:#33415c;margin-bottom:10px}
+.note.warn{background:#fff7e6;border-color:#ffd591;color:#614700}
+.note.ok{background:#f6ffed;border-color:#b7eb8f;color:#245c1a}
+table{width:100%;border-collapse:collapse;font-size:12px}
+.kv td{border:1px solid #eef0f3;padding:6px 10px;vertical-align:top}
+.kv .k{background:#fafbfc;font-weight:600;width:140px;color:#4e5969;white-space:nowrap}
+.kv .v{color:#1f2329}
+table.grid{margin-top:4px}
+table.grid th{background:#f2f3f5;color:#4e5969;text-align:left;padding:7px 9px;font-weight:600;border:1px solid #e5e6eb}
+table.grid td{border:1px solid #e5e6eb;padding:7px 9px;vertical-align:top}
+table.grid td.basis{color:#4e5969;font-size:11.5px}
+.mono{font-family:'SF Mono',Consolas,monospace;color:#2f6fed;font-weight:600}
+.sub{margin-bottom:14px}
+.sub h4{font-size:12.5px;margin:0 0 6px;color:#1f2329;background:#fafbfc;padding:5px 8px;border-radius:3px}
+.badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;background:#eef0f3;color:#4e5969;white-space:nowrap}
+.b-trig{background:#e6f4ea;color:#1a7f37;font-weight:600}
+.b-na{background:#f0f0f0;color:#999}
+.b-warn{background:#fff7e6;color:#ad6800}
+.b-midhigh{background:#e6f4ea;color:#1a7f37}
+.b-mid{background:#e8f0fe;color:#2f6fed}
+.b-low{background:#fff1f0;color:#cf1322}
+.concl{background:#1f2329;color:#fff;padding:16px 24px}
+.concl h2{color:#fff;border-color:#4e5969}
+.concl .row{display:flex;gap:24px;flex-wrap:wrap;margin-top:8px}
+.concl .box{flex:1;min-width:220px;background:#2a2f37;border-radius:5px;padding:12px 14px}
+.concl .box h3{margin:0 0 6px;font-size:13px;color:#7aa2ff}
+.tag{display:inline-block;background:#cf1322;color:#fff;padding:2px 10px;border-radius:3px;font-weight:600;font-size:13px}
+.foot{padding:12px 24px;font-size:11px;color:#86909c;text-align:center}
+ul{margin:6px 0;padding-left:20px} li{margin:3px 0}
+code{background:#f2f3f5;padding:1px 4px;border-radius:3px;font-size:11px}
+</style></head>
+<body><div class="wrap">
+
+<header>
+  <h1>纯碱 SA2609 · 期货多空逻辑分析报告</h1>
+  <div class="meta">数据日期 2026-08-12 ｜ 数据源：奇货可查（登录态）｜ 逻辑源：期货多空逻辑 14-Skill ｜ 生成：数据逻辑处理引擎</div>
+</header>
+
+<div class="section">
+  <h2>0 · 执行流程与数据纪律</h2>
+  <div class="note ok"><b>流程合规性</b>：①用户提供合约 SA2609 → ②学习纯碱产业链（<b>仅用于规划 S4/S5 所需采集的关联商品，该知识不作为策略依据</b>）→ ③browser-skill 连接用户已登录 Chrome，校验登录态通过 → ④采集客观数据并严格按 14-Skill 匹配 → ⑤输出本报告。</div>
+  <div class="note"><b>数据纪律</b>：仅提取盘面/基本面客观数据（价格、基差、持仓、仓单、库存、利润、开工率、期限结构）；已屏蔽页面内「AI研报」「乾坤归一评级」「大佬动向」「机构预期」「新闻」等全部主观/外部观点。策略逻辑<b>唯一来源</b>为 14 个 Skill，未引入任何通用金融知识。遵循「宁缺毋滥」：数据不满足 Skill 触发条件即判无机会。</div>
+</div>
+
+<div class="section">
+  <h2>1 · Step2 产业链学习结论（仅规划采集，非策略依据）</h2>
+  <div class="note">纯碱上游：原盐、石灰石、合成氨、煤炭/天然气（能源）；中游：轻碱/重碱，联碱法副产氯化铵；下游：玻璃（浮法+光伏，占需求约 50–65%，核心）、氧化铝、小苏打、泡花碱、洗涤剂、碳酸锂等。据此规划采集：<b>S4 产业链利润</b>需下游<b>玻璃(FG)</b>库存/利润/产能利用率；<b>S5 跨品种套利</b>需配对品种 <b>玻璃(FG)</b>、<b>烧碱(SH)</b>（同属两碱、共享原盐）、<b>尿素(UR)</b>（联碱副产氯化铵与尿素同属氮肥、期货相关性 0.84）。</div>
+</div>
+
+<div class="section">
+  <h2>2 · 客观数据（奇货可查 · 已过滤观点）</h2>
+  <div class='sub'><h4>纯碱 SA2609 自身</h4><table class='kv'><tr><td class='k'>合约</td><td class='v'>SA2609 (主力/近月, 2026-09交割)</td></tr><tr><td class='k'>基差</td><td class='v'>-7 (期货987 - 现货980)</td></tr><tr><td class='k'>基差率</td><td class='v'>-0.71% (浅升水/期货升水)</td></tr><tr><td class='k'>期限结构</td><td class='v'>contango: 2608=973 < 2609=987 < 2610=1010 < … < 2707=1105 (近月低位, 单调升水)</td></tr><tr><td class='k'>持仓</td><td class='v'>多头总持仓464,166手; 空头总持仓534,166手; 净持仓: 多头净35,711 / 空头净193,748 (净空主导)</td></tr><tr><td class='k'>仓单</td><td class='v'>5,993手 (≈119,860吨), 增减-44 (注册量相对库存极小)</td></tr><tr><td class='k'>厂内库存</td><td class='v'>184.95万吨 (08-07), 历史高位, 累库轨迹 34→145→144→185</td></tr><tr><td class='k'>利润</td><td class='v'>氨碱法-254元/吨 (08-07); 联碱法-193.5元/吨 → 全产业链深度亏损</td></tr><tr><td class='k'>产能利用率</td><td class='v'>77.11% (08-09), 高位略降</td></tr></table></div>
+  <div class='sub'><h4>玻璃 FG（下游 · S4/S5）</h4><table class='kv'><tr><td class='k'>厂内库存</td><td class='v'>7,489.8万重箱 (08-07), 历史最高, 持续累库</td></tr><tr><td class='k'>贸易商库存</td><td class='v'>512万重箱 (08-07), 历史最高</td></tr><tr><td class='k'>利润</td><td class='v'>煤炭法-49.25 / 石油焦法-221.47 / 天然气法-179.23 元/重箱 → 全工艺深度亏损</td></tr><tr><td class='k'>产能利用率</td><td class='v'>70.94% (08-11), 持续下滑 (2023末84.83→现70.94)</td></tr><tr><td class='k'>基差</td><td class='v'>+22 (期货878 - 现货900), 基差率+2.44% (现货升水/back)</td></tr><tr><td class='k'>期限结构</td><td class='v'>contango: 2609=878 < 2707=1044</td></tr></table></div>
+  <div class="sub"><h4>烧碱 SH / 尿素 UR（S5 配对）</h4>
+    <table class="kv">
+      <tr><td class="k">烧碱 SH 基差/结构</td><td class="v">+72 (期货1891 - 现货1963), 基差率+3.67% (现货升水/back)；contango: 2609=1891 < 2707=2081</td></tr>
+      <tr><td class="k">尿素 UR 基差/结构</td><td class="v">-53 (期货1683 - 现货1630), 基差率-3.25% (期货升水/contango)；contango: 2609=1683 < 2707=1811</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>3 · 14-Skill 匹配矩阵</h2>
+  <table class="grid">
+    <thead><tr><th>编号</th><th>Skill 名称</th><th>触发判定</th><th>策略方向</th><th>置信度</th><th>核心数据依据</th></tr></thead>
+    <tbody><tr>
+      <td class="mono">S1</td>
+      <td>基差安全边际</td>
+      <td><span class="badge b-trig">触发(偏空)</span></td>
+      <td><b>做空偏好/不做多</b></td>
+      <td><span class="badge b-low">低-中</span></td>
+      <td class="basis">纯碱基差率-0.71%(浅升水)。升水结构→尽量不做多; 但仅浅升水, 安全边际薄, 置信低。</td>
+    </tr><tr>
+      <td class="mono">S2</td>
+      <td>商品价值投资</td>
+      <td><span class="badge b-na">未触发</span></td>
+      <td><b>—</b></td>
+      <td><span class="badge b-na">—</span></td>
+      <td class="basis">需全产业亏损+back结构+终极成本锚定投。纯碱虽全产业链亏损(氨碱-254/联碱-193.5), 但结构为contango(非back), 且SA2609临近交割(2026-09)不适长期持有。不满足定投做多条件。提示: 已逼近天然碱成本(880-920), 长期价值窗口或临近, 但对将到期+contango合约不适用。</td>
+    </tr><tr>
+      <td class="mono">S3</td>
+      <td>驱动信号验证</td>
+      <td><span class="badge b-trig">触发(验证)</span></td>
+      <td><b>驱动向下(支撑做空)</b></td>
+      <td><span class="badge b-mid">中</span></td>
+      <td class="basis">核心驱动: 供给扩张(产能4400万+天然碱低成本投放)+需求塌方(玻璃累库减产)→累库熊市驱动向下。与本报告做空方向一致, 作为验证框架而非独立方向信号。</td>
+    </tr><tr>
+      <td class="mono">S4</td>
+      <td>产业链利润</td>
+      <td><span class="badge b-trig">触发(偏空)</span></td>
+      <td><b>偏空(中高)</b></td>
+      <td><span class="badge b-midhigh">中高</span></td>
+      <td class="basis">下游玻璃联动: ①玻璃厂内7489.8万重箱+贸易商512 双历史最高→采购弱→纯碱累库(同源规则, 解释纯碱185万高位); ②玻璃三工艺全深亏(-49/-221/-179)→压价采购→纯碱利润承压(反向规则, 纯碱氨碱-254深亏); ③玻璃产能利用率70.94%下滑→主动减产→纯碱需求收缩→累库延续。三路一致→偏空。注: 纯碱自身亏损本身偏长期支撑, 真正偏空腿是下游联动规则。</td>
+    </tr><tr>
+      <td class="mono">S5</td>
+      <td>跨品种套利</td>
+      <td><span class="badge b-trig">触发(配对)</span></td>
+      <td><b>空contango纯碱+多back玻璃/烧碱</b></td>
+      <td><span class="badge b-mid">中</span></td>
+      <td class="basis">期限结构对冲逻辑(第5类): 多back品种+空contango品种。纯碱基差率-0.71%(contango)→做空; 玻璃+2.44%(back)/烧碱+3.67%(back)→做多。→ 跨品种配对: 空SA多FG 或 空SA多SH。对纯碱单边方向=偏空/不做多, 与主策略共振。产业利润逻辑亦指向(玻璃利润深亏→做多玻璃利润=多玻璃空纯碱)。警惕ce30下行末端去产能风险。</td>
+    </tr><tr>
+      <td class="mono">S6</td>
+      <td>跨期套利</td>
+      <td><span class="badge b-trig">触发(反套)</span></td>
+      <td><b>空近月(SA2609)多远月</b></td>
+      <td><span class="badge b-mid">中低</span></td>
+      <td class="basis">四逻辑投票: 基差升水(-0.71%→反套)+库存高(185万→反套)+结构contango(→反套) 三票反套; 仓单5993手(相对库存不算巨量→偏正套) 一票。多数指向反套(空近月多远月)。但SA2609临近交割, 近月走交割逻辑, 跨期空间小→置信中低。对单边方向暗示: 近月2609偏弱。</td>
+    </tr><tr>
+      <td class="mono">S7</td>
+      <td>库存+基差+利润</td>
+      <td><span class="badge b-trig">触发(矛盾)</span></td>
+      <td><b>偏空(降级套利)</b></td>
+      <td><span class="badge b-mid">中</span></td>
+      <td class="basis">三指标: 库存高(185万,偏空)+基差浅升水(-0.71%,偏空)+利润深亏(氨碱-254,偏多)→矛盾行情。按书应降级套利而非硬扛单边; 库存+基差双空信号强于单利润支撑→整体偏空, 但宜套利/对冲, 忌重仓单边。</td>
+    </tr><tr>
+      <td class="mono">S8</td>
+      <td>库存周期趋势</td>
+      <td><span class="badge b-trig">触发(偏空)</span></td>
+      <td><b>偏空(中高)</b></td>
+      <td><span class="badge b-midhigh">中高</span></td>
+      <td class="basis">纯碱厂内库存184.95万历史最高+持续累库(170→185)+下游玻璃同步累库→主动/被动累库阶段(去库才涨)。产能利用率77.11%仍高(供应未有效收缩)+利润深亏但未大规模停产→被动累库(需求弱于供应)。库存周期偏空。</td>
+    </tr><tr>
+      <td class="mono">S9</td>
+      <td>事前风控</td>
+      <td><span class="badge b-warn">执行纪律(非方向)</span></td>
+      <td><b>轻仓短线/严格止损</b></td>
+      <td><span class="badge b-na">—</span></td>
+      <td class="basis">SA2609临近交割(2026-09)+持仓4日骤降(空头总持仓08-11 610k→08-12 534k, -12.5%)→流动性/移仓风险; 浅升水(-0.71%)做空edge薄。建议轻仓短线、严格止损、忌重仓长持。</td>
+    </tr><tr>
+      <td class="mono">S10</td>
+      <td>概率赔率</td>
+      <td><span class="badge b-trig">触发(中)</span></td>
+      <td><b>做空赔率中等</b></td>
+      <td><span class="badge b-mid">中</span></td>
+      <td class="basis">contango浅升水: 做空向现货980收敛空间仅~7点, 但结构向远月升水使空近月有移仓收益(空方友好)。下方空间受成本约束(天然碱880-920, 从987至920约67点); 上方风险为逼仓/去产能反弹。整体盈亏比中等偏正。</td>
+    </tr><tr>
+      <td class="mono">S11</td>
+      <td>虚实盘比/逼仓</td>
+      <td><span class="badge b-na">未触发否决</span></td>
+      <td><b>中性(不阻塞做空)</b></td>
+      <td><span class="badge b-na">—</span></td>
+      <td class="basis">虚盘(空头总持仓534,166手≈1068万吨); 实盘(仓单5,993手×20吨=11.99万吨); 虚实比≈89(钱多货少表象)。但边界ce24: 厂库信用仓单交割月前才集中生成, 仓单低≠货源紧, 库存更可靠。纯碱厂内库存184.95万吨极高→可交割货源充足。多逼空条件(期货贴水+现货坚挺+真货少)不满足(实际contango+现货疲软+库存极高)。故高虚实盘比为注册滞后假象, 不构成对做空的否决。</td>
+    </tr><tr>
+      <td class="mono">S12</td>
+      <td>反转信号</td>
+      <td><span class="badge b-warn">离场警示(非开仓)</span></td>
+      <td><b>留意低位反转</b></td>
+      <td><span class="badge b-na">—</span></td>
+      <td class="basis">纯碱价格987逼近历史低位(7月最低1070), 全产业链深度亏损。需警惕反转, 但当前无明确反转触发(无持仓骤降转多、无基差频繁转换)。属离场/风控警示, 非开仓信号。</td>
+    </tr><tr>
+      <td class="mono">S13</td>
+      <td>期限结构牛熊</td>
+      <td><span class="badge b-trig">触发(做空)</span></td>
+      <td><b>逢高做空(中高)</b></td>
+      <td><span class="badge b-midhigh">中高</span></td>
+      <td class="basis">纯碱2608=973 < 2609=987 < … < 2707=1105, 单调contango(正向市场)→现货熊市→逢高做空。核心触发Skill。</td>
+    </tr><tr>
+      <td class="mono">S14</td>
+      <td>估值驱动矩阵</td>
+      <td><span class="badge b-trig">触发(第三象限)</span></td>
+      <td><b>套利/对冲(非重仓单边)</b></td>
+      <td><span class="badge b-mid">中</span></td>
+      <td class="basis">估值轴: 利润率深度负(氨碱-254/联碱-193.5, 历史极低≈估值-3)+基差率-0.71%(浅负)→低估值; 驱动轴: 库存历史最高+累库→驱动向下。两轴→第三象限(低估值+驱动向下)→套利或对冲而非单边。与S7矛盾行情降级一致。综合: contango(S13)给做空偏好, 但低估值(S14)提示不宜重仓追空, 宜对冲/套利。</td>
+    </tr></tbody>
+  </table>
+  <div class="note warn" style="margin-top:12px"><b>关键修正</b>：本报告采集显示纯碱<b>仓单=5,993 手</b>（≈11.99 万吨），非此前临时记录中误记的「0 手」。据此重算 S11：虚实盘比≈89 的「钱多货少」表象，被厂内库存 184.95 万吨（极高、可交割货源充足）抵消——属厂库信用仓单注册滞后（边界 ce24），<b>不构成对做空方向的逼空否决</b>。</div>
+</div>
+
+<div class="concl">
+  <h2>4 · 综合策略与风控</h2>
+  <div class="row">
+    <div class="box">
+      <h3>主策略方向</h3>
+      <p><span class="tag">偏空 · 逢高做空 SA2609</span></p>
+      <p style="font-size:12px;color:#c9cdd4">综合置信：<b style="color:#7aa2ff">中</b>（做空共振强，但低估值+临近交割限制仓位）</p>
+    </div>
+    <div class="box">
+      <h3>做空共振 Skill</h3>
+      <p style="font-size:12px;color:#c9cdd4"><b>S13</b>(中高,contango熊市) · <b>S4</b>(中高,玻璃高库存+深亏联动) · <b>S8</b>(中高,累库熊市) · <b>S7/S1/S6/S5/S10</b>(中,库存+浅升水/反套/结构对冲/赔率)</p>
+    </div>
+    <div class="box">
+      <h3>约束与降级信号</h3>
+      <p style="font-size:12px;color:#c9cdd4"><b>S14/S7</b> 第三象限/矛盾行情→套利对冲而非重仓单边；<b>S2</b> 不触发(contango+近月到期)但提示长期价值窗口临近；<b>S11</b> 不构成逼空否决；<b>S12</b> 留意低位反转(非开仓)</p>
+    </div>
+  </div>
+  <div class="box" style="margin-top:12px;background:#2a2f37">
+    <h3>风控要点（S9）</h3>
+    <ul style="color:#c9cdd4;font-size:12px">
+      <li><b>临近交割</b>：SA2609 于 2026-09 交割，持仓 4 日骤降（空头总持仓 08-11 约610k → 08-12 534k，-12.5%）→ 流动性/移仓风险高，宜轻仓短线。</li>
+      <li><b>edge 薄</b>：基差率仅 -0.71%（浅升水），向现货 980 收敛空间约 7 点 → 须逢高做空，忌追空。</li>
+      <li><b>成本约束</b>：全产业链深亏（氨碱-254），已逼近天然碱终极成本（880-920）→ 做空下方空间受限，长期价值窗口或临近。</li>
+      <li><b>替代路径</b>：矛盾行情下可转套利——<b>S5</b> 空 SA 多 FG（结构对冲）/ <b>S6</b> 空 SA2609 多 SA2701（反套）/ <b>S14</b> 多利润对冲（多纯碱空玻璃）。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="foot">本报告由数据逻辑处理引擎基于奇货可查客观数据与「期货多空逻辑」14-Skill 生成 · 仅作逻辑推演，不构成投资建议 · 原始图表数据存档于 qhkch_raw/c_*.json</div>
+
+</div></body></html>
